@@ -2,6 +2,7 @@
   "name": "my-app",
   "version": "0.1.0",
   "private": true,
+  "homepage": ".",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.10",
     "@testing-library/react": "^11.2.6",
@@ -9,7 +10,17 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
-    "web-vitals": "^1.1.1"
+    "web-vitals": "^1.1.1",
+    "react-spring": "latest",
+    "prop-types": "latest",
+    "@material-ui/lab": "latest",
+    "@material-ui/icons": "latest",
+    "@material-ui/core": "latest",
+    "react-ace": "latest",
+    "ace-builds": "latest",
+    "axios": "latest",
+    "qs": "latest",
+    "material-ui-treeview": "latest"
   },
   "scripts": {
     "start": "react-scripts start",
