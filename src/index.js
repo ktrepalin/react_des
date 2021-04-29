@@ -5,9 +5,12 @@ import Tree from './tree';
 import Tabs from './tabs';
 import Control from './control';
 import Selector from './tree_menu';
+import ListBox from './list'
 import reportWebVitals from './reportWebVitals';
+import { getElement } from './api/requests'
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
+import Divider from '@material-ui/core/Divider';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,19 +34,35 @@ const useStyles = makeStyles((theme) => ({
 function App() {
   const classes = useStyles();
   const [data, setData] = React.useState([]);
+  const [menu, setMenu] = React.useState([]);
   const [item, setItem] = React.useState('modules');
+
+  function handleChange(newValue) {
+    setItem(newValue);
+    console.log(newValue)
+    if (newValue === 'modules') {
+      setMenu('tree')
+    } else {
+      setMenu('list')
+    }
+    getElement(newValue,setData)
+  }
+
   return (
     <div className={classes.root}>
     <Grid className={classes.main} container spacing={1}>
       <Grid item xs={12} sm={3} container spacing={1}>
-        <Grid item xs={12}>
-          <Selector item={item} />
-          <Tree data={data} />
+        <Grid container direction="column">
+          <Selector onChange={handleChange}/>
+          <Divider/>
+          <Tree data={data} menu={menu}/>
+          <ListBox data={data} menu={menu}/>
         </Grid>
       </Grid>
       <Grid item xs={12} sm={9}>
         <div className={classes.work}>
           <Control />
+          <Divider/>
           <Tabs />
         </div>
       </Grid>
@@ -52,6 +71,27 @@ function App() {
   )
 
 }
+
+
+// function Child({ num, onNumClick }) {
+//   return <span onClick={() => onNumClick(num)}>{num}</span>;
+// }
+
+// function Parent() {
+//   const [numList] = useState([1, 2, 3, 4, 5]);
+//   const [clickedItem, setClickedItem] = useState(null);
+
+//   const onNumClick = num => setClickedItem(num);
+
+//   return (
+//     <div className="App">
+//       {numList.map(n => (
+//         <Child num={n} onNumClick={onNumClick} />
+//       ))}
+//       {clickedItem && <p>You clicked on {clickedItem}</p>}
+//     </div>
+//   );
+// }
 
 const rootElement = document.getElementById('root')
 ReactDOM.render(<App />, rootElement)

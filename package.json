@@ -20,7 +20,8 @@
     "ace-builds": "latest",
     "axios": "latest",
     "qs": "latest",
-    "material-ui-treeview": "latest"
+    "redux": "latest",
+    "react-redux": "latest"
   },
   "scripts": {
     "start": "react-scripts start",

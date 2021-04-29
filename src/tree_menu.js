@@ -1,66 +1,107 @@
 import React from 'react';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import { MenuItem, MenuList, Popper, Paper, Grow, ClickAwayListener,ButtonGroup, Button, Grid } from '@material-ui/core';
 import { makeStyles,withStyles } from '@material-ui/core/styles';
-import { MenuItem, FormControl, Select, InputBase } from '@material-ui/core/';
+
+const options = [{key:'modules',value:'Модули'}, {key:'classes',value:'Классы'}, {key:'models',value:'Модели'}, {key:'storages',value:'Объекты'} ];
 
 const useStyles = makeStyles({
-  root: {
+  group: {
     // height: '100%',
-    // position: 'relative',
     // float: 'left',
-    flexGrow: 1,
-    // maxWidth: '18vw',
-    // minWidth: '18vw',
-    overflow: "auto",
+    // maxWidth: '28vw',
+    // minWidth: '28vw',
   },
   label: {
-    fontSize: 14,
+    fontSize: 12,
+    // width: '100px',
+    // minWidth: '50px'
   },
   selector:{
-    // maxWidth: '18vw',
+    // display: 'flex',
+    // flexDirection: 'column',
+    minHeight: '42px',
+    height: '42px',
+    '& > *': {
+      margin: '4px',
+    }
   }
 });
-
-const BootstrapInput = withStyles((theme) => ({
-  input: {
-    borderRadius: 4,
-    position: 'relative',
-    // backgroundColor: theme.palette.background.paper,
-    border: '1px solid #ced4da',
-    fontSize: 14,
-    padding: '5px 6px 5px 6px',
-    transition: theme.transitions.create(['border-color', 'box-shadow']),
-    '&:focus': {
-      borderRadius: 4,
-      borderColor: '#80bdff',
-      boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
-    },
-  },
-}))(InputBase);
 
 
 export default function Selector(props) {
   const classes = useStyles();
-  const selector = props.item
-  const [item, setItem] = React.useState('');
-  const handleChange = (event) => {
-    setItem(event.target.value);
-    console.log(selector)
+  const [open, setOpen] = React.useState(false);
+  const anchorRef = React.useRef(null);
+  const [selectedIndex, setSelectedIndex] = React.useState(1);
+  const handleClick = () => {
+    // console.log(`click ${options[selectedIndex]}`);
+    props.onChange(options[selectedIndex].key);
   };
+
+  const handleMenuItemClick = (event, index) => {
+    setSelectedIndex(index);
+    props.onChange(options[index].key);
+    setOpen(false);
+  };
+
+  const handleToggle = () => {
+    setOpen((prevOpen) => !prevOpen);
+  };
+
+  const handleClose = (event) => {
+    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+      return;
+    }
+
+    setOpen(false);
+  };
+
   return (
-    <div className={classes.selector}>
-      <FormControl>
-        <Select
-          labelId="select-label"
-          id="selector"
-          value={item}
-          onChange={handleChange}
-          input={<BootstrapInput />}
-        >
-          <MenuItem value={'modules'}>Модули</MenuItem>
-          <MenuItem value={'classes'}>Классы</MenuItem>
-          <MenuItem value={'models'}>Модели</MenuItem>
-        </Select>
-      </FormControl>
-    </div>
+    <Grid container direction="column" alignItems="center" className={classes.selector}>
+      <Grid item xs={12}>
+        <ButtonGroup className={classes.group} variant="contained" color="primary" ref={anchorRef} aria-label="split button">
+          <Button classes={{ label: classes.label }} onClick={handleClick}>{options[selectedIndex].value}</Button>
+          <Button
+            color="primary"
+            size="small"
+            aria-controls={open ? 'split-button-menu' : undefined}
+            aria-expanded={open ? 'true' : undefined}
+            aria-label="select merge strategy"
+            aria-haspopup="menu"
+            onClick={handleToggle}
+          >
+            <ArrowDropDownIcon />
+          </Button>
+        </ButtonGroup>
+        <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal style={{zIndex:1450}}>
+          {({ TransitionProps, placement }) => (
+            <Grow
+              {...TransitionProps}
+              style={{
+                transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom',
+              }}
+            >
+              <Paper>
+                <ClickAwayListener onClickAway={handleClose}>
+                  <MenuList autoFocusItem={open} id="split-button-menu">
+                    {options.map((option, index) => (
+                      <MenuItem
+                        key={option.key}
+                        // disabled={index === selectedIndex}
+                        selected={index === selectedIndex}
+                        onClick={(event) => handleMenuItemClick(event, index)}
+                      >
+                        {option.value}
+                      </MenuItem>
+                    ))}
+                  </MenuList>
+                </ClickAwayListener>
+              </Paper>
+            </Grow>
+          )}
+        </Popper>
+      </Grid>
+    </Grid>
   );
 }

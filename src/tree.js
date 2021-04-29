@@ -1,14 +1,16 @@
 import React from 'react';
 import { makeStyles,withStyles } from '@material-ui/core/styles';
-import TreeView from '@material-ui/lab/TreeView';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import TreeView from '@material-ui/lab/TreeView';
 import TreeItem from '@material-ui/lab/TreeItem';
 import axios from 'axios';
 
 const useStyles = makeStyles({
   root: {
-    maxHeight: '48vh',
+    maxHeight: '88vh',
+    maxWidth: 752,
+    width: '100%',
     position: 'relative',
     float: 'left',
     flexGrow: 1,
@@ -28,16 +30,16 @@ const useStyles = makeStyles({
 export default function ControlledTreeView(props) {
   const data = props.data
   const classes = useStyles();
-  const [expanded, setExpanded] = React.useState([]);
-  const [selected, setSelected] = React.useState([]);
+  // const [expanded, setExpanded] = React.useState([]);
+  // const [selected, setSelected] = React.useState([]);
 
-  const handleToggle = (event, nodeIds) => {
-    setExpanded(nodeIds);
-  };
+  // const handleToggle = (event, nodeIds) => {
+  //   setExpanded(nodeIds);
+  // };
 
-  const handleSelect = (event, nodeIds) => {
-    setSelected(nodeIds);
-  };
+  // const handleSelect = (event, nodeIds) => {
+  //   setSelected(nodeIds);
+  // };
 
   const renderTree = (nodes) => (
     nodes.map((node)=>(
@@ -49,13 +51,14 @@ export default function ControlledTreeView(props) {
 
   return (
     <TreeView
+      hidden = {props.menu != 'tree'}
       className={classes.root}
       defaultCollapseIcon={<ExpandMoreIcon />}
       defaultExpandIcon={<ChevronRightIcon />}
-      expanded={expanded}
-      selected={selected}
-      onNodeToggle={handleToggle}
-      onNodeSelect={handleSelect}
+      // expanded={expanded}
+      // selected={selected}
+      // onNodeToggle={handleToggle}
+      // onNodeSelect={handleSelect}
     >
       {renderTree(data)}
     </TreeView>
