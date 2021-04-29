@@ -4,7 +4,6 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import Grid from '@material-ui/core/Grid';
 import FolderIcon from '@material-ui/icons/Folder';
 import Divider from '@material-ui/core/Divider';
 
@@ -32,15 +31,15 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function generate(element) {
-  return (
-    <ListItem button>
-      <ListItemIcon>
-        <FolderIcon />
-      </ListItemIcon>
-    </ListItem>
-  )
-}
+// function generate(element) {
+//   return (
+//     <ListItem button>
+//       <ListItemIcon>
+//         <FolderIcon />
+//       </ListItemIcon>
+//     </ListItem>
+//   )
+// }
 
 export default function ListBox(props) {
   const data = props.data
@@ -49,7 +48,7 @@ export default function ListBox(props) {
   // const [secondary, setSecondary] = React.useState(false);
 
   return (
-    <div className={classes.root} hidden = {props.menu != 'list'} >
+    <div className={classes.root} hidden = {props.menu !== 'list'} >
       <List dense={ true } disablePadding = {true}>
         {
           data.map((item)=>(

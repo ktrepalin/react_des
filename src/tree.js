@@ -51,7 +51,7 @@ export default function ControlledTreeView(props) {
 
   return (
     <TreeView
-      hidden = {props.menu != 'tree'}
+      hidden = {props.menu !== 'tree'}
       className={classes.root}
       defaultCollapseIcon={<ExpandMoreIcon />}
       defaultExpandIcon={<ChevronRightIcon />}
