@@ -1,6 +1,6 @@
 // import React from 'react';
 import axios from 'axios';
-// import qs from 'qs';
+import qs from 'qs';
 
 export function getElement(element, setData) {
   axios.get('/service/get_element', {
@@ -9,7 +9,6 @@ export function getElement(element, setData) {
       }
     })
     .then(res => {
-      console.log(res.data)
       setData(res.data)
     })
     .catch(function (error) {
@@ -19,4 +18,40 @@ export function getElement(element, setData) {
         )
       console.log(error);
     })
+}
+
+export function getScript(type, name, parent, editor) {
+  axios.get('/service/get_script', {
+      params: {
+        type: type,
+        name: name,
+        parent: parent
+      }
+    })
+    .then(res => {
+      editor.setValue(res.data)
+      editor.clearSelection()
+    })
+    .catch(function (error) {
+      editor.clearSelection()
+      console.log(error);
+    })
+}
+
+
+export function runScript(data, output) {
+  const options = {
+    method: 'POST',
+    headers: { 'content-type': 'application/x-www-form-urlencoded' },
+    data: qs.stringify(data),
+    url: '/service/cmd'
+  };
+  axios(options)
+    .then(res => {
+        output.setValue(res.data)
+        output.clearSelection()
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
 }

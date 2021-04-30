@@ -32,13 +32,18 @@ function GetEditors(props) {
 const styles = theme => ({
   root: {
     flexGrow: 1,
-    backgroundColor: "#EBEDEF"
+    backgroundColor: "#EBEDEF",
+    height: '90%',
+    width: '100%',
+    boxShadow: '0 0 3px rgba(0,0,0,0.35),  0 0 3px rgba(0,0,0,0.35)',
+    border: '1px'
   },
   appBar: {
     color: "inherit",
     // maxWidth: "100%",
     // width: "100%",
-    backgroundColor: "#EBEDEF",
+    // backgroundColor: "#EBEDEF",
+    backgroundColor: 'rgba(165, 167, 169, 0.2)',
   },
   tabsIndicator: {
     backgroundColor: "#272822"
@@ -138,7 +143,7 @@ class CustomTabs extends Component {
     const { value } = this.state;
     // console.log(this.state);
     return (
-      <div style={{ width: '100%', height: '100%' }}>
+      <div className={classes.root}>
             <AppBar position="static" className={classes.appBar}>
                 <Grid
                     container

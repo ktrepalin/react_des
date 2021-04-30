@@ -3,7 +3,7 @@ import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import { MenuItem, MenuList, Popper, Paper, Grow, ClickAwayListener,ButtonGroup, Button, Grid } from '@material-ui/core';
 import { makeStyles,withStyles } from '@material-ui/core/styles';
 
-const options = [{key:'modules',value:'Модули'}, {key:'classes',value:'Классы'}, {key:'models',value:'Модели'}, {key:'storages',value:'Объекты'} ];
+const options = [{key:'modules',value:'Модули'}, {key:'classes',value:'Классы'}, {key:'models',value:'Модели'}, {key:'storages',value:'Хранилище'} ];
 
 const useStyles = makeStyles({
   group: {

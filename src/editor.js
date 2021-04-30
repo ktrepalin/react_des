@@ -47,7 +47,7 @@ class Output extends Component {
         mode="ruby"
         theme="monokai"
         // onChange={onChange}
-        style={{ width: '100%', height: 'calc(35% - 78px)', borderTop: '1px solid #EBEDEF'}}
+        style={{ width: '100%', height: '35%', borderTop: '1px solid #EBEDEF'}}
         name={'output' + this.index}
         key= {'output' + this.index}
         editorProps={{ $blockScrolling: true }}

@@ -28,6 +28,9 @@ const useStyles = makeStyles((theme) => ({
     display: 'block',
     maxWidth: '100%',
     height: '100%',
+  },
+  left:{
+    // height: '100%'
   }
 }));
 
@@ -52,14 +55,14 @@ function App() {
     <div className={classes.root}>
     <Grid className={classes.main} container spacing={1}>
       <Grid item xs={12} sm={3} container spacing={1}>
-        <Grid container direction="column">
+        <Grid className={classes.left} container direction="column" alignItems="center">
           <Selector onChange={handleChange}/>
           <Divider/>
           <Tree data={data} menu={menu}/>
           <ListBox data={data} menu={menu}/>
         </Grid>
       </Grid>
-      <Grid item xs={12} sm={9}>
+      <Grid item xs={12} sm={9} spacing={1}>
         <div className={classes.work}>
           <Control />
           <Divider/>

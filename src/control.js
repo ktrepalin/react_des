@@ -5,10 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import PlayIcon from '@material-ui/icons/PlayCircleFilledWhiteOutlined';
 import SaveIcon from '@material-ui/icons/SaveOutlined';
 import FolderOpenIcon from '@material-ui/icons/FolderOpenOutlined';
-import { tabPanel } from './tabs';
-import ace from "ace-builds";
-import axios from 'axios';
-import qs from 'qs';
+import { run, save, open } from './api/actions';
 
 const useStyles = makeStyles((theme) => ({
   panel: {
@@ -23,45 +20,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function run() {
-  var currentTab = tabPanel.state.value
-  console.log('текущая = ' + currentTab);
-  const editor = ace.edit('input'+currentTab)
-  const output = ace.edit('output'+currentTab)
-  const data = { 'cmd': editor.getValue() };
-  const options = {
-    method: 'POST',
-    headers: { 'content-type': 'application/x-www-form-urlencoded' },
-    data: qs.stringify(data),
-    url: '/service/cmd'
-  };
-  axios(options)
-    .then(res => {
-        output.setValue(res.data)
-        output.clearSelection()
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-}
-
-function save() {
-
-}
-
-function open(e) {
-  var file = e.target.files[0]
-  if (!file) return;
-  const fileReader = new FileReader()
-  fileReader.onload = function() {
-    var currentTab = tabPanel.state.value
-    var editor = ace.edit('input'+currentTab)
-    editor.setValue(fileReader.result)
-    editor.clearSelection()
-  }
-  tabPanel.addTab(file.name.substring(0, 16))
-  fileReader.readAsText(file)
-}
 
 export default function ControlPanel() {
   const classes = useStyles();
