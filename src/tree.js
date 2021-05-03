@@ -6,18 +6,22 @@ import TreeView from '@material-ui/lab/TreeView';
 import TreeItem from '@material-ui/lab/TreeItem';
 import {ModuleIcon, AttrIcon, MethIcon} from './icons';
 import { setScriptToEditor } from './api/actions'
+import SearchInput from './search'
+import Paper from '@material-ui/core/Paper';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxHeight: 'calc(100vh - 50px)',
+    display: 'flex',
+    flexWrap: 'wrap',
     maxWidth: 752,
     width: '95%',
-    position: 'relative',
-    float: 'left',
+  },
+  tree: {
+    maxHeight: 'calc(100vh - 110px)',
+    // maxWidth: 752,
+    width: '95%',
     flexGrow: 1,
     overflow: "auto",
-    boxShadow: '0 0 3px rgba(0,0,0,0.35),  0 0 3px rgba(0,0,0,0.35)',
-    backgroundColor: 'rgba(165, 167, 169, 0.2)',
   },
   label: {
     fontSize: 12
@@ -35,6 +39,15 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     padding: theme.spacing(0.5, 0),
+  },
+  papper: {
+    display: 'flex',
+    alignItems: 'center',
+    width: '95%',
+    flexGrow: 1,
+    marginTop: theme.spacing(1),
+    // height: '38px',
+    backgroundColor: 'rgba(1, 1, 1, 0)',
   },
 }));
 
@@ -63,20 +76,36 @@ function cutName(name) {
   }
 }
 
+function isMatch(event, searchString) {
+  return event.name.toLowerCase().match(searchString);
+};
+
+function search(event, searchString) {
+  // return (isMatch(event, searchString))
+  var parent = (isMatch(event, searchString))
+  var childs = (Array.isArray(event.children) &&
+      event.children.filter(e => search(e, searchString))
+    )
+  if (childs.length) {
+    event.children = childs
+  }
+  return (parent || childs.length)
+};
 
 export default function ControlledTreeView(props) {
-  const data = props.data
+  let data = props.data
   const classes = useStyles();
   // const [expanded, setExpanded] = React.useState([]);
-  const [selected, setSelected] = React.useState([]);
+  // const [selected, setSelected] = React.useState([]);
+  const [searchString, setSearchString] = React.useState([]);
 
   // const handleToggle = (event, nodeIds) => {
   //   setExpanded(nodeIds);
   // };
 
-  const handleSelect = (event, nodeIds) => {
-    setSelected(nodeIds);
-  };
+  // const handleSelect = (event, nodeIds) => {
+  //   setSelected(nodeIds);
+  // };
 
   const onDoubleClick = (name,type,parent) => {
     if (type === 'module') {
@@ -85,6 +114,17 @@ export default function ControlledTreeView(props) {
       setScriptToEditor(type,name,parent)
     }
   };
+
+  if (searchString.length) {
+    data = data.filter(e => search(e, searchString));
+    // let nodeIds = [];
+    // for (let node of nodeIds) {
+    //   nodeIds.push(node.nodeId)
+    // }
+    //  setExpanded(nodeIds);
+  } else {
+    // setExpanded([]);
+  }
 
   const renderTree = (nodes, parent) => {
     var modul = (parent != null) ? parent.name : null
@@ -106,19 +146,24 @@ export default function ControlledTreeView(props) {
   };
 
   return (
-    <TreeView
-      hidden = {props.menu !== 'tree'}
-      className={classes.root}
-      defaultCollapseIcon={<ExpandMoreIcon />}
-      defaultExpandIcon={<ChevronRightIcon />}
-      // expanded={expanded}
-      selected={selected}
-      // onNodeToggle={handleToggle}
-      onNodeSelect={handleSelect}
-    >
-      <div className={classes.margin}>
-      {renderTree(data,null)}
-      </div>
-    </TreeView>
+    <div className={classes.root} hidden = {props.menu !== 'tree'}>
+      <SearchInput setSearchString={ setSearchString } searchString={ searchString } hidden = {props.menu !== 'tree'}/>
+      <Paper component="form" className={classes.papper} elevation={4} >
+        <TreeView
+          hidden = {props.menu !== 'tree'}
+          className={classes.tree}
+          defaultCollapseIcon={<ExpandMoreIcon />}
+          defaultExpandIcon={<ChevronRightIcon />}
+          // expanded={expanded}
+          // selected={selected}
+          // onNodeToggle={handleToggle}
+          // onNodeSelect={handleSelect}
+        >
+          <div className={classes.margin}>
+          {renderTree(data,null)}
+          </div>
+        </TreeView>
+      </Paper>
+    </div>
   );
 }

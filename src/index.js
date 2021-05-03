@@ -30,14 +30,14 @@ const useStyles = makeStyles((theme) => ({
     height: '100%',
   },
   left:{
-    // height: '100%'
+    // marginLeft: 'auto',
   }
 }));
 
 function App() {
   const classes = useStyles();
   const [data, setData] = React.useState([]);
-  const [menu, setMenu] = React.useState([]);
+  const [menu, setMenu] = React.useState('');
   const [item, setItem] = React.useState('modules');
 
   function handleChange(newValue) {
