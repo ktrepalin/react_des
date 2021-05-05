@@ -24,8 +24,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+export function isMatch(event, searchString) {
+  return event.name.toLowerCase().match(searchString);
+};
 
-export default function SearchInput(props) {
+export function search(event, searchString) {
+  // return (isMatch(event, searchString))
+  var parent = (isMatch(event, searchString))
+  var childs = (Array.isArray(event.children) &&
+      event.children.filter(e => search(e, searchString))
+    )
+  if (childs.length) {
+    event.children = childs
+  }
+  return (parent || childs.length)
+};
+
+
+export function SearchInput(props) {
   const classes = useStyles();
   const [value, setValue] = React.useState('');
 
@@ -48,6 +64,12 @@ export default function SearchInput(props) {
         placeholder="Поиск"
         inputProps={{ 'aria-label': 'search' }}
         value={value}
+        onKeyPress={event => {
+          if (event.key === "Enter") {
+            onClick(event);
+            event.preventDefault()
+          }
+        }}
       />
       <IconButton className={classes.iconButton} onClick={onClick} aria-label="search">
         <SearchIcon />

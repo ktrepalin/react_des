@@ -6,7 +6,7 @@ import TreeView from '@material-ui/lab/TreeView';
 import TreeItem from '@material-ui/lab/TreeItem';
 import {ModuleIcon, AttrIcon, MethIcon} from './icons';
 import { setScriptToEditor } from './api/actions'
-import SearchInput from './search'
+import { isMatch, search, SearchInput } from './search'
 import Paper from '@material-ui/core/Paper';
 
 const useStyles = makeStyles((theme) => ({
@@ -76,21 +76,6 @@ function cutName(name) {
   }
 }
 
-function isMatch(event, searchString) {
-  return event.name.toLowerCase().match(searchString);
-};
-
-function search(event, searchString) {
-  // return (isMatch(event, searchString))
-  var parent = (isMatch(event, searchString))
-  var childs = (Array.isArray(event.children) &&
-      event.children.filter(e => search(e, searchString))
-    )
-  if (childs.length) {
-    event.children = childs
-  }
-  return (parent || childs.length)
-};
 
 export default function ControlledTreeView(props) {
   let data = props.data

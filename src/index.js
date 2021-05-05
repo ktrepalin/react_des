@@ -42,7 +42,6 @@ function App() {
 
   function handleChange(newValue) {
     setItem(newValue);
-    console.log(newValue)
     if (newValue === 'modules') {
       setMenu('tree')
     } else {
@@ -59,7 +58,7 @@ function App() {
           <Selector onChange={handleChange}/>
           <Divider/>
           <Tree data={data} menu={menu}/>
-          <ListBox data={data} menu={menu}/>
+          <ListBox data={data} menu={menu} type={item}/>
         </Grid>
       </Grid>
       <Grid item xs={12} sm={9} spacing={1}>
