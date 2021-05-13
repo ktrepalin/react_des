@@ -20,8 +20,8 @@
     "ace-builds": "latest",
     "axios": "latest",
     "qs": "latest",
-    "redux": "latest",
-    "react-redux": "latest"
+    "react-router-dom": "latest",
+    "@inovua/reactdatagrid-community": "latest"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import PlayIcon from '@material-ui/icons/PlayCircleFilledWhiteOutlined';
 import SaveIcon from '@material-ui/icons/SaveOutlined';
 import FolderOpenIcon from '@material-ui/icons/FolderOpenOutlined';
-import { run, save, open } from './api/actions';
+import { run, save, open } from '../api/actions';
 
 const useStyles = makeStyles((theme) => ({
   panel: {
@@ -39,6 +39,7 @@ export default function ControlPanel() {
         </Button>
         <Button
           style={{maxHeight: '30px', minHeight: '30px', textTransform: 'none'}}
+          onClick={save}
           startIcon={<SaveIcon />}
         >
         Сохранить

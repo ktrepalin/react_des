@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles,withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
@@ -29,7 +29,6 @@ export function isMatch(event, searchString) {
 };
 
 export function search(event, searchString) {
-  // return (isMatch(event, searchString))
   var parent = (isMatch(event, searchString))
   var childs = (Array.isArray(event.children) &&
       event.children.filter(e => search(e, searchString))

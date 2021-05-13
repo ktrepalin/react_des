@@ -1,12 +1,12 @@
 import React from 'react';
-import { makeStyles,withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import TreeView from '@material-ui/lab/TreeView';
 import TreeItem from '@material-ui/lab/TreeItem';
 import {ModuleIcon, AttrIcon, MethIcon} from './icons';
-import { setScriptToEditor } from './api/actions'
-import { isMatch, search, SearchInput } from './search'
+import { setScriptToEditor } from '../api/actions'
+import { search, SearchInput } from './search'
 import Paper from '@material-ui/core/Paper';
 
 const useStyles = makeStyles((theme) => ({
@@ -56,16 +56,14 @@ function LabelIcon(props) {
   const {className, fontSize, type} = props
   switch(type) {
     case 'module':
-      return (<ModuleIcon className={className} fontSize={fontSize} />)
+      return (<ModuleIcon className={className} fontSize={fontSize} color="action" />)
     case 'attr':
-      return (<AttrIcon className={className} fontSize={fontSize} />)
+      return (<AttrIcon className={className} fontSize={fontSize} color="action" />)
     case 'method':
-      return (<MethIcon className={className} fontSize={fontSize} />)
-
+      return (<MethIcon className={className} fontSize={fontSize} color="action" />)
+    default:
+      return (<ModuleIcon className={className} fontSize={fontSize} color="action" />)
   }
-  return (
-    <ModuleIcon className={className} fontSize={fontSize} />
-  );
 }
 
 function cutName(name) {

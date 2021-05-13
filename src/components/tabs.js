@@ -5,12 +5,29 @@ import Close from "@material-ui/icons/Close";
 import cloneDeep from "lodash/cloneDeep";
 // import PropTypes from 'prop-types';
 import { Input, Output } from './editor';
+import ObjectViewTable from './dataGrid';
 
 //-------------------- EDITOR
 var tabPanel
 
+const Vilka = (props) => {
+  if (props.type===1) {
+    return (
+      <div style={{ width: '100%', height: '100%' }}>
+      <Input index={props.index}/>
+      <Output index={props.index}/>
+      </div>
+    )
+  } else {
+    return (
+      <ObjectViewTable name={props.name}/>
+    )
+  }
+
+}
+
 function GetEditors(props) {
-  const { children, value, index, ...other } = props;
+  const { value, index, type, name, ...other } = props;
   // const aceEditorRef = useRef();
   return (
     <div
@@ -21,9 +38,7 @@ function GetEditors(props) {
       aria-labelledby={`scrollable-auto-tab-${index}`}
       {...other}
     >
-      <Input index={index}/>
-      <Output index={index}/>
-
+      <Vilka type={type} index={index} name={name}/>
     </div>);
 }
 
@@ -66,6 +81,12 @@ const styles = theme => ({
   tabSelected: {}
 });
 
+
+
+function cutName(name) {
+  return name.substring(0, 16);
+}
+
 class CustomTabs extends Component {
   constructor(...args) {
     super(...args);
@@ -76,11 +97,12 @@ class CustomTabs extends Component {
         key: 0,
         id: 0,
         name: 'DSL ',
+        type: 1, // DSL
       }]
     };
   }
 
-  addTab = name => {
+  addTab = (name,type=1) => {
     let id
     this.setState((state, props) => {
       let tabList = cloneDeep(state.tabList);
@@ -89,6 +111,7 @@ class CustomTabs extends Component {
         key: id,
         id: id,
         name: name,
+        type: type,
       });
       return {
         tabList
@@ -166,7 +189,7 @@ class CustomTabs extends Component {
                                         key={tab.key.toString()}
                                         classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
                                         value={tab.id}
-                                        label={tab.name}
+                                        label={cutName(tab.name)}
                                         icon={
                                             <Close
                                                 id={tab.id}
@@ -182,7 +205,7 @@ class CustomTabs extends Component {
                     <Grid item xl={1} lg={1} md={1} sm={1} xs={1} >
                         <Button
                             // variant="outlined"
-                            onClick= {() => this.addTab('DSL')}
+                            onClick= {() => this.addTab('DSL',1)}
                             //{this.addTab}
                         >
                             <Add/>
@@ -192,7 +215,7 @@ class CustomTabs extends Component {
             </AppBar>
           {
             this.state.tabList.map((tab)=>(
-              <GetEditors value={value} index={tab.id} key={tab.key.toString()} />
+              <GetEditors value={value} index={tab.id} key={tab.key.toString()} type={tab.type} name={tab.name}/>
 
             ))
           }

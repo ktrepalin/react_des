@@ -6,12 +6,13 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import {ClassIcon, StorageIcon, ModelIcon} from './icons';
-import { isMatch, search, SearchInput } from './search'
+import * as Icons from './icons';
+import { search, SearchInput } from './search'
 import Divider from '@material-ui/core/Divider';
 import Paper from '@material-ui/core/Paper';
-import { setScriptToEditor } from './api/actions'
+import { setScriptToEditor, openStorage } from '../api/actions'
 import PlayIcon from '@material-ui/icons/PlayCircleFilledWhiteOutlined';
+// import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,8 +41,8 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(4, 0, 2),
   },
   secondary:{
-    textAlign: 'right',
-    marginTop: '-16px',
+    // textAlign: 'right',
+    // marginTop: '-16px',
     fontSize: '11px'
   },
   primary:{
@@ -52,37 +53,57 @@ const useStyles = makeStyles((theme) => ({
 
 
 function cutName(name) {
+  let substr
   if (name.length > 25) {
-    return (name.substring(0, 25) + '...')
+    substr = name.includes(' ') ? name.split(' ')[1] : name
+    substr = substr.includes('.') ? substr.split('.')[1] : substr
+    substr = substr.length > 25 ? substr.substring(0, 25) + '...' : substr
+    return substr
   } else {
     return name
   }
 }
 
 function LabelIcon(props) {
-  const type = props
+  const type = props.type
   switch(type) {
     case 'classes':
-      return (<ClassIcon/>)
+      return (<Icons.ClassIcon/>)
     case 'storages':
-      return (<StorageIcon />)
+      return (<Icons.StorageIcon />)
     case 'models':
-      return (<ModelIcon />)
+      return (<Icons.ModelIcon />)
+    case 'ustorages':
+      return (<Icons.UStorageIcon />)
+    case 'events':
+      return (<Icons.EventIcon />)
+    case 'hosts':
+      return (<Icons.HostIcon />)
+    case 'appservers':
+      return (<Icons.AppServIcon />)
+    case 'databases':
+      return (<Icons.DataBaseIcon />)
+    case 'plugins':
+      return (<Icons.PluginIcon />)
+    case 'jobs':
+      return (<Icons.JobIcon />)
+    default:
+      return <Icons.ClassIcon />
   }
-  return (
-    <ModelIcon />
-  );
 }
 
 function EndButton(props) {
   const type = props.type
   const item = props.item
-  if (type === 'models') {
+
+  if (type === 'models' || type === 'storages') {
     return (
       <ListItemSecondaryAction>
-        <IconButton edge="end" aria-label="play">
-          <PlayIcon onClick={()=>{console.log(item)}}/>
-        </IconButton>
+        {/*<Link to={{pathname: "/storage/" + item.name}}>*/}
+          <IconButton edge="end" aria-label="play">
+            <PlayIcon onClick={()=>{openStorage(item.name)}}/>
+          </IconButton>
+
       </ListItemSecondaryAction>
     )
   } else {
@@ -100,10 +121,6 @@ export default function ListBox(props) {
   // const [secondary, setSecondary] = React.useState(false);
   const onDoubleClick = (name,type) => {
     setScriptToEditor(type,name)
-  };
-
-  const play = (name,type) => {
-    console.log(name,type)
   };
 
 

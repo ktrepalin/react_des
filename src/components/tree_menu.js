@@ -1,9 +1,24 @@
 import React from 'react';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import { MenuItem, MenuList, Popper, Paper, Grow, ClickAwayListener,ButtonGroup, Button, Grid } from '@material-ui/core';
-import { makeStyles,withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 
-const options = [{key:'modules',value:'Модули'}, {key:'classes',value:'Классы'}, {key:'models',value:'Модели'}, {key:'storages',value:'Хранилище'} ];
+const options = [
+  {key:'modules',value:'Модули'},
+  {key:'classes',value:'Классы'},
+  {key:'models',value:'Модели'},
+  {key:'storages',value:'Хранилище'},
+  {key:'ustorages',value:'Ун. хранилище'},
+  {key:'events',value:'События'},
+  // {key:'scenes',value:'Сцены'},
+  // {key:'appliactions',value:'Приложения'},
+  {key:'hosts',value:'Серверы'},
+  {key:'appservers',value:'Серверы приложений'},
+  {key:'databases',value:'Базы Данных'},
+  {key:'plugins',value:'Плагины'},
+  {key:'jobs',value:'Задачи планировщика'},
+];
+
 
 const useStyles = makeStyles({
   group: {
@@ -14,12 +29,8 @@ const useStyles = makeStyles({
   },
   label: {
     fontSize: 12,
-    // width: '100px',
-    // minWidth: '50px'
   },
   selector:{
-    // display: 'flex',
-    // flexDirection: 'column',
     minHeight: '42px',
     height: '42px',
     '& > *': {
